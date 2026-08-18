@@ -14,6 +14,7 @@ export const colors = {
   cream: '#FFFDF6',
   navy: '#243A5E',
   plum: '#6B4FA0',
+  greenDeep: '#4E9A6B',
   softText: '#5C6B7A',
   buttonText: '#5A4A1F',
   daisyCenter: '#F6B93B',

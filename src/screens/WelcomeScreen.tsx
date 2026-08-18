@@ -16,7 +16,6 @@ import BeeWithTrail from '../components/BeeWithTrail';
 
 type WelcomeScreenProps = {
   onStartVisit?: () => void;
-  onLearnMore?: () => void;
 };
 
 const GARDEN_ASPECT = 1536 / 1024;
@@ -28,7 +27,6 @@ const GARDEN_CREAM = '#FDFBEF';
 
 export default function WelcomeScreen({
   onStartVisit,
-  onLearnMore,
 }: WelcomeScreenProps) {
   const { width } = useWindowDimensions();
   const insets = useSafeAreaInsets();
@@ -69,15 +67,32 @@ export default function WelcomeScreen({
 
             {/* Title */}
             <Text style={styles.title} accessibilityRole="header">
-              Bee Here{'\n'}With Me
+              Bee Here With Me
             </Text>
 
             {/* Tagline */}
             <Text style={styles.tagline}>
-              You don't need the{'\n'}perfect words.
+              You don't need the perfect words.
             </Text>
             <Text style={[styles.tagline, styles.taglineStrong]}>
-              You just need{'\n'}to be here.
+              You just need to be here.
+            </Text>
+
+            {/* Heart divider */}
+            <View style={styles.divider}>
+              <View style={styles.dividerLine} />
+              <Svg width={24} height={22} viewBox="0 0 24 22" fill="none">
+                <Path
+                  d="M12 20 C 3 13.5, 1 8, 4.3 4.2 C 6.5 1.7, 9.9 2.1, 12 5 C 14.1 2.1, 17.5 1.7, 19.7 4.2 C 23 8, 21 13.5, 12 20 Z"
+                  fill={colors.yellow}
+                />
+              </Svg>
+              <View style={styles.dividerLine} />
+            </View>
+
+            {/* Sub-caption */}
+            <Text style={styles.caption}>
+              A little help connecting with someone living with memory loss.
             </Text>
           </View>
         </View>
@@ -93,14 +108,14 @@ export default function WelcomeScreen({
           />
           <Pressable
             accessibilityRole="button"
-            accessibilityLabel="Start a Visit"
+            accessibilityLabel="Next"
             onPress={onStartVisit}
             style={({ pressed }) => [
               styles.button,
               pressed && styles.buttonPressed,
             ]}
           >
-            <Text style={styles.buttonText}>Start a Visit</Text>
+            <Text style={styles.buttonText}>Next</Text>
             <Svg width={20} height={20} viewBox="0 0 20 20" fill="none">
               <Path
                 d="M7 4l6 6-6 6"
@@ -110,17 +125,6 @@ export default function WelcomeScreen({
                 strokeLinejoin="round"
               />
             </Svg>
-          </Pressable>
-
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel="How this app helps"
-            onPress={onLearnMore}
-            hitSlop={10}
-            style={styles.link}
-          >
-            <Text style={styles.linkFlower}>✿</Text>
-            <Text style={styles.linkText}>How this app helps</Text>
           </Pressable>
         </View>
       </SafeAreaView>
@@ -179,6 +183,8 @@ const styles = StyleSheet.create({
     color: colors.navy,
     letterSpacing: 0.5,
     textAlign: 'center',
+    alignSelf: 'center',
+    maxWidth: 240,
   },
   tagline: {
     fontFamily: Platform.select({
@@ -191,6 +197,8 @@ const styles = StyleSheet.create({
     color: colors.plum,
     marginTop: 12,
     textAlign: 'center',
+    alignSelf: 'center',
+    maxWidth: 250,
   },
   taglineStrong: {
     fontFamily: Platform.select({
@@ -199,6 +207,34 @@ const styles = StyleSheet.create({
       default: 'System',
     }),
     marginTop: 4,
+  },
+  divider: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'stretch',
+    marginTop: 22,
+    gap: 12,
+  },
+  dividerLine: {
+    width: 68,
+    height: 2,
+    borderRadius: 1,
+    backgroundColor: colors.yellow,
+  },
+  caption: {
+    fontFamily: Platform.select({
+      ios: 'Nunito_600SemiBold',
+      android: 'Nunito_600SemiBold',
+      default: 'System',
+    }),
+    fontSize: 24,
+    lineHeight: 31,
+    color: colors.navy,
+    marginTop: 14,
+    textAlign: 'center',
+    alignSelf: 'center',
+    maxWidth: 250,
   },
   actions: {
     paddingHorizontal: 28,
@@ -210,9 +246,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    alignSelf: 'stretch',
+    alignSelf: 'center',
     backgroundColor: colors.yellow,
-    paddingVertical: 18,
+    paddingVertical: 14,
+    paddingHorizontal: 44,
     borderRadius: 30,
     gap: 8,
     shadowColor: '#E0A93B',
@@ -233,24 +270,5 @@ const styles = StyleSheet.create({
     }),
     fontSize: 24,
     color: colors.buttonText,
-  },
-  link: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 16,
-    gap: 6,
-  },
-  linkFlower: {
-    color: colors.purple,
-    fontSize: 24,
-  },
-  linkText: {
-    fontFamily: Platform.select({
-      ios: 'Nunito_600SemiBold',
-      android: 'Nunito_600SemiBold',
-      default: 'System',
-    }),
-    fontSize: 24,
-    color: colors.softText,
   },
 });
