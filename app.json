@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "Bee Here With Me",
+    "slug": "bee-here",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/bee.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/bee.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#FFFDF6"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.beehere.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/bee.png",
+        "backgroundColor": "#FFFDF6"
+      },
+      "package": "com.beehere.app"
+    },
+    "web": {
+      "favicon": "./assets/bee.png"
+    }
+  }
+}
