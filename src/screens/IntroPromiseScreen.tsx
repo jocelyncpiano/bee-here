@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Platform } from 'react-native';
+import { View, Text, Pressable, StyleSheet, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, { Path, Circle } from 'react-native-svg';
 import { colors } from '../theme/colors';
@@ -85,7 +85,11 @@ const PROMISES: Promise[] = [
 ];
 
 /** Intro page 2 — "Our Promise to You". */
-export default function IntroPromiseScreen() {
+export default function IntroPromiseScreen({
+  onBegin,
+}: {
+  onBegin?: () => void;
+}) {
   return (
     <View style={styles.root}>
       <SafeAreaView style={styles.safe} edges={['top', 'bottom']}>
@@ -105,6 +109,29 @@ export default function IntroPromiseScreen() {
               </View>
             </View>
           ))}
+        </View>
+
+        <View style={styles.actions}>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Let's begin"
+            onPress={onBegin}
+            style={({ pressed }) => [
+              styles.button,
+              pressed && styles.buttonPressed,
+            ]}
+          >
+            <Text style={styles.buttonText}>Let's begin</Text>
+            <Svg width={20} height={20} viewBox="0 0 20 20" fill="none">
+              <Path
+                d="M7 4l6 6-6 6"
+                stroke={colors.buttonText}
+                strokeWidth={2.2}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </Svg>
+          </Pressable>
         </View>
       </SafeAreaView>
     </View>
@@ -173,5 +200,39 @@ const styles = StyleSheet.create({
     lineHeight: 30,
     color: colors.softText,
     marginTop: 2,
+  },
+  actions: {
+    paddingHorizontal: 28,
+    paddingBottom: 12,
+    alignItems: 'center',
+  },
+  button: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    backgroundColor: colors.yellow,
+    paddingVertical: 14,
+    paddingHorizontal: 44,
+    borderRadius: 30,
+    gap: 8,
+    shadowColor: '#E0A93B',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.35,
+    shadowRadius: 10,
+    elevation: 4,
+  },
+  buttonPressed: {
+    opacity: 0.85,
+    transform: [{ scale: 0.99 }],
+  },
+  buttonText: {
+    fontFamily: Platform.select({
+      ios: 'Nunito_700Bold',
+      android: 'Nunito_700Bold',
+      default: 'System',
+    }),
+    fontSize: 24,
+    color: colors.buttonText,
   },
 });

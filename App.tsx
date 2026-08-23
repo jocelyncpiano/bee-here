@@ -16,11 +16,12 @@ import { Caveat_700Bold } from '@expo-google-fonts/caveat';
 import WelcomeScreen from './src/screens/WelcomeScreen';
 import IntroBuzzyScreen from './src/screens/IntroBuzzyScreen';
 import IntroPromiseScreen from './src/screens/IntroPromiseScreen';
+import CheckInScreen from './src/screens/CheckInScreen';
 import { colors } from './src/theme/colors';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
-type Screen = 'welcome' | 'intro1' | 'intro2';
+type Screen = 'welcome' | 'intro1' | 'intro2' | 'checkin';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -30,7 +31,7 @@ export default function App() {
     Nunito_700Bold,
     Caveat_700Bold,
   });
-  const [screen, setScreen] = useState<Screen>('welcome');
+  const [screen, setScreen] = useState<Screen>('checkin');
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
@@ -52,8 +53,10 @@ export default function App() {
           />
         ) : screen === 'intro1' ? (
           <IntroBuzzyScreen onNext={() => setScreen('intro2')} />
+        ) : screen === 'intro2' ? (
+          <IntroPromiseScreen onBegin={() => setScreen('checkin')} />
         ) : (
-          <IntroPromiseScreen />
+          <CheckInScreen onBack={() => setScreen('intro2')} />
         )}
       </View>
     </SafeAreaProvider>
