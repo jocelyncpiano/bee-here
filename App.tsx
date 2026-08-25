@@ -19,6 +19,7 @@ import IntroPromiseScreen from './src/screens/IntroPromiseScreen';
 import CheckInScreen from './src/screens/CheckInScreen';
 import MoodResponseScreen from './src/screens/MoodResponseScreen';
 import ConnectScreen from './src/screens/ConnectScreen';
+import ConversationScreen from './src/screens/ConversationScreen';
 import { colors } from './src/theme/colors';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
@@ -32,7 +33,8 @@ type Screen =
   | 'difficult'
   | 'hard'
   | 'unsure'
-  | 'connect';
+  | 'connect'
+  | 'conversation';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -107,8 +109,16 @@ export default function App() {
             message="Let's start with something easy."
             onContinue={() => setScreen('connect')}
           />
+        ) : screen === 'conversation' ? (
+          <ConversationScreen onBack={() => setScreen('connect')} />
         ) : (
-          <ConnectScreen />
+          <ConnectScreen
+            onSelectTopic={(topic) => {
+              if (topic === 'conversation') {
+                setScreen('conversation');
+              }
+            }}
+          />
         )}
       </View>
     </SafeAreaProvider>
