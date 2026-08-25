@@ -17,11 +17,12 @@ import WelcomeScreen from './src/screens/WelcomeScreen';
 import IntroBuzzyScreen from './src/screens/IntroBuzzyScreen';
 import IntroPromiseScreen from './src/screens/IntroPromiseScreen';
 import CheckInScreen from './src/screens/CheckInScreen';
+import ConnectScreen from './src/screens/ConnectScreen';
 import { colors } from './src/theme/colors';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
-type Screen = 'welcome' | 'intro1' | 'intro2' | 'checkin';
+type Screen = 'welcome' | 'intro1' | 'intro2' | 'checkin' | 'connect';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -31,7 +32,7 @@ export default function App() {
     Nunito_700Bold,
     Caveat_700Bold,
   });
-  const [screen, setScreen] = useState<Screen>('checkin');
+  const [screen, setScreen] = useState<Screen>('welcome');
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
@@ -55,8 +56,13 @@ export default function App() {
           <IntroBuzzyScreen onNext={() => setScreen('intro2')} />
         ) : screen === 'intro2' ? (
           <IntroPromiseScreen onBegin={() => setScreen('checkin')} />
+        ) : screen === 'checkin' ? (
+          <CheckInScreen
+            onBack={() => setScreen('intro2')}
+            onSelect={() => setScreen('connect')}
+          />
         ) : (
-          <CheckInScreen onBack={() => setScreen('intro2')} />
+          <ConnectScreen />
         )}
       </View>
     </SafeAreaProvider>

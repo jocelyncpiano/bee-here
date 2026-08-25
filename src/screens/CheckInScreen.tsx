@@ -276,8 +276,8 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   bee: {
-    width: 52,
-    height: 52,
+    width: 80,
+    height: 80,
   },
   title: {
     fontFamily: Platform.select({

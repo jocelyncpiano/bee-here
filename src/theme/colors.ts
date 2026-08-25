@@ -8,6 +8,7 @@ export const colors = {
   green: '#B7E3C6',
   purple: '#DCC6FF',
   lightBlue: '#EAF2FF',
+  sky: '#AFC4EE',
   white: '#FFFFFF',
 
   // Supporting tones
@@ -18,6 +19,8 @@ export const colors = {
   softText: '#5C6B7A',
   buttonText: '#5A4A1F',
   daisyCenter: '#F6B93B',
+  daisyPetal: '#FFF9E8',
+  daisyOutline: '#D8C9A8',
   stem: '#8FCB9B',
   leaf: '#A7D8B0',
 } as const;
