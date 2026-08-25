@@ -17,7 +17,7 @@ import WelcomeScreen from './src/screens/WelcomeScreen';
 import IntroBuzzyScreen from './src/screens/IntroBuzzyScreen';
 import IntroPromiseScreen from './src/screens/IntroPromiseScreen';
 import CheckInScreen from './src/screens/CheckInScreen';
-import CalmResponseScreen from './src/screens/CalmResponseScreen';
+import MoodResponseScreen from './src/screens/MoodResponseScreen';
 import ConnectScreen from './src/screens/ConnectScreen';
 import { colors } from './src/theme/colors';
 
@@ -29,6 +29,9 @@ type Screen =
   | 'intro2'
   | 'checkin'
   | 'calm'
+  | 'difficult'
+  | 'hard'
+  | 'unsure'
   | 'connect';
 
 export default function App() {
@@ -67,11 +70,43 @@ export default function App() {
           <CheckInScreen
             onBack={() => setScreen('intro2')}
             onSelect={(mood) =>
-              setScreen(mood === 'well' ? 'calm' : 'connect')
+              setScreen(
+                mood === 'well'
+                  ? 'calm'
+                  : mood === 'difficult'
+                    ? 'difficult'
+                    : mood === 'hard'
+                      ? 'hard'
+                      : mood === 'unsure'
+                        ? 'unsure'
+                        : 'connect',
+              )
             }
           />
         ) : screen === 'calm' ? (
-          <CalmResponseScreen onContinue={() => setScreen('connect')} />
+          <MoodResponseScreen
+            title="Wonderful."
+            message="Let's find a little way to connect."
+            onContinue={() => setScreen('connect')}
+          />
+        ) : screen === 'difficult' ? (
+          <MoodResponseScreen
+            title="That's okay."
+            message="Let's keep things simple and comfortable."
+            onContinue={() => setScreen('connect')}
+          />
+        ) : screen === 'hard' ? (
+          <MoodResponseScreen
+            title="Let's slow things down."
+            message="A calm voice and a little reassurance can go a long way."
+            onContinue={() => setScreen('connect')}
+          />
+        ) : screen === 'unsure' ? (
+          <MoodResponseScreen
+            title="That's completely fine."
+            message="Let's start with something easy."
+            onContinue={() => setScreen('connect')}
+          />
         ) : (
           <ConnectScreen />
         )}

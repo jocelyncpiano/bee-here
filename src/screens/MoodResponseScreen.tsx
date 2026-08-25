@@ -26,11 +26,17 @@ function heart(cx: number, cy: number, s: number): string {
   );
 }
 
-export default function CalmResponseScreen({
-  onContinue,
-}: {
+type MoodResponseScreenProps = {
+  title: string;
+  message: string;
   onContinue?: () => void;
-}) {
+};
+
+export default function MoodResponseScreen({
+  title,
+  message,
+  onContinue,
+}: MoodResponseScreenProps) {
   const { width } = useWindowDimensions();
   const gardenHeight = width * GARDEN_ASPECT * GARDEN_BAND_FRAC;
 
@@ -92,11 +98,9 @@ export default function CalmResponseScreen({
           </View>
 
           <Text style={styles.title} accessibilityRole="header">
-            Wonderful.
+            {title}
           </Text>
-          <Text style={styles.subtitle}>
-            Let&apos;s find a little way to connect.
-          </Text>
+          <Text style={styles.subtitle}>{message}</Text>
         </View>
 
         <View style={styles.actions}>
