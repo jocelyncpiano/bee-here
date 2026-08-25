@@ -25,7 +25,7 @@ type CheckInScreenProps = {
   onSelect?: (mood: MoodId) => void;
 };
 
-type MoodId = 'well' | 'difficult' | 'hard' | 'unsure';
+export type MoodId = 'well' | 'difficult' | 'hard' | 'unsure';
 type FaceType = 'happy' | 'neutral' | 'sad' | 'question';
 
 /** A small heart outline centered at (cx, cy) with radius s. */
@@ -43,18 +43,18 @@ function heart(cx: number, cy: number, s: number): string {
 function Face({ type, color }: { type: FaceType; color: string }) {
   const mouth =
     type === 'happy'
-      ? 'M13.5 24 Q 20 30, 26.5 24'
+      ? 'M12.5 26 Q 20 33, 27.5 26'
       : type === 'sad'
-      ? 'M13.5 27 Q 20 21, 26.5 27'
-      : 'M14 25 L 26 25';
+      ? 'M12.5 31 Q 20 23, 27.5 31'
+      : 'M12.5 28 L 27.5 28';
   return (
-    <Svg width={30} height={30} viewBox="0 0 40 40" fill="none">
-      <Circle cx={14.5} cy={17} r={2.4} fill={color} />
-      <Circle cx={25.5} cy={17} r={2.4} fill={color} />
+    <Svg width={40} height={40} viewBox="0 0 40 40" fill="none">
+      <Circle cx={14} cy={16} r={2.5} fill={color} />
+      <Circle cx={26} cy={16} r={2.5} fill={color} />
       <Path
         d={mouth}
         stroke={color}
-        strokeWidth={2.6}
+        strokeWidth={2.8}
         strokeLinecap="round"
         fill="none"
       />
@@ -323,9 +323,9 @@ const styles = StyleSheet.create({
     transform: [{ scale: 0.99 }],
   },
   iconCircle: {
-    width: 42,
-    height: 42,
-    borderRadius: 21,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 14,
@@ -336,7 +336,7 @@ const styles = StyleSheet.create({
       android: 'Nunito_700Bold',
       default: 'System',
     }),
-    fontSize: 26,
+    fontSize: 30,
   },
   cardLabel: {
     flex: 1,

@@ -17,12 +17,19 @@ import WelcomeScreen from './src/screens/WelcomeScreen';
 import IntroBuzzyScreen from './src/screens/IntroBuzzyScreen';
 import IntroPromiseScreen from './src/screens/IntroPromiseScreen';
 import CheckInScreen from './src/screens/CheckInScreen';
+import CalmResponseScreen from './src/screens/CalmResponseScreen';
 import ConnectScreen from './src/screens/ConnectScreen';
 import { colors } from './src/theme/colors';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
-type Screen = 'welcome' | 'intro1' | 'intro2' | 'checkin' | 'connect';
+type Screen =
+  | 'welcome'
+  | 'intro1'
+  | 'intro2'
+  | 'checkin'
+  | 'calm'
+  | 'connect';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -59,8 +66,12 @@ export default function App() {
         ) : screen === 'checkin' ? (
           <CheckInScreen
             onBack={() => setScreen('intro2')}
-            onSelect={() => setScreen('connect')}
+            onSelect={(mood) =>
+              setScreen(mood === 'well' ? 'calm' : 'connect')
+            }
           />
+        ) : screen === 'calm' ? (
+          <CalmResponseScreen onContinue={() => setScreen('connect')} />
         ) : (
           <ConnectScreen />
         )}
