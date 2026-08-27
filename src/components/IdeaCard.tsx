@@ -17,6 +17,7 @@ const GARDEN_BAND_FRAC = (1536 - 636) / 1536;
 const GARDEN_CREAM = '#FDFBEF';
 
 export type IdeaContent = {
+  kicker?: string;
   prompt: string;
   guidance: string;
   unquoted?: boolean;
@@ -74,7 +75,7 @@ export default function IdeaCard({
         </View>
 
         <View style={styles.content}>
-          <Text style={styles.kicker}>{kicker}</Text>
+          <Text style={styles.kicker}>{idea.kicker ?? kicker}</Text>
 
           <View style={[styles.card, idea.long && styles.longCard]}>
             <Text style={[styles.prompt, idea.long && styles.longPrompt]}>

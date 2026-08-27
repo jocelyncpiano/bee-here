@@ -21,6 +21,7 @@ import MoodResponseScreen from './src/screens/MoodResponseScreen';
 import ConnectScreen from './src/screens/ConnectScreen';
 import ConversationScreen from './src/screens/ConversationScreen';
 import ActivitiesScreen from './src/screens/ActivitiesScreen';
+import MusicScreen from './src/screens/MusicScreen';
 import { colors } from './src/theme/colors';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
@@ -36,7 +37,8 @@ type Screen =
   | 'unsure'
   | 'connect'
   | 'conversation'
-  | 'activities';
+  | 'activities'
+  | 'music';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -115,6 +117,8 @@ export default function App() {
           <ConversationScreen onBack={() => setScreen('connect')} />
         ) : screen === 'activities' ? (
           <ActivitiesScreen onBack={() => setScreen('connect')} />
+        ) : screen === 'music' ? (
+          <MusicScreen onBack={() => setScreen('connect')} />
         ) : (
           <ConnectScreen
             onSelectTopic={(topic) => {
@@ -122,6 +126,8 @@ export default function App() {
                 setScreen('conversation');
               } else if (topic === 'activities') {
                 setScreen('activities');
+              } else if (topic === 'music') {
+                setScreen('music');
               }
             }}
           />
