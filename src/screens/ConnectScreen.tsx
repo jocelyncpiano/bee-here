@@ -157,19 +157,42 @@ function MusicIcon() {
   );
 }
 
-function CameraIcon({ lens }: { lens: string }) {
+function PinwheelIcon() {
+  const bladeColors = [
+    colors.yellow,
+    colors.greenDeep,
+    colors.plum,
+    colors.sky,
+  ];
+
   return (
     <>
       <Path
-        d={`M ${CENTER_X - 14} ${CENTER_Y - 4}
-            h 7 l 2 -4 h 10 l 2 4 h 7
-            a 4 4 0 0 1 4 4 v 11
-            a 4 4 0 0 1 -4 4 h -28
-            a 4 4 0 0 1 -4 -4 v -11
-            a 4 4 0 0 1 4 -4 Z`}
+        d={`M ${CENTER_X} ${CENTER_Y + 4} L ${CENTER_X + 8} ${CENTER_Y + 20}`}
+        stroke={colors.navy}
+        strokeWidth={2.5}
+        strokeLinecap="round"
+      />
+      {bladeColors.map((color, index) => (
+        <G
+          key={color}
+          rotation={index * 90}
+          origin={`${CENTER_X}, ${CENTER_Y}`}
+        >
+          <Path
+            d={`M ${CENTER_X} ${CENTER_Y}
+                C ${CENTER_X - 1} ${CENTER_Y - 12}, ${CENTER_X + 5} ${CENTER_Y - 18}, ${CENTER_X + 14} ${CENTER_Y - 18}
+                C ${CENTER_X + 14} ${CENTER_Y - 9}, ${CENTER_X + 9} ${CENTER_Y - 3}, ${CENTER_X} ${CENTER_Y} Z`}
+            fill={color}
+          />
+        </G>
+      ))}
+      <Circle
+        cx={CENTER_X}
+        cy={CENTER_Y}
+        r={4}
         fill={colors.navy}
       />
-      <Circle cx={CENTER_X} cy={CENTER_Y + 5} r={5.6} fill={lens} />
     </>
   );
 }
@@ -250,10 +273,10 @@ const TOPICS: Topic[] = [
   },
   {
     id: 'look',
-    label: 'Look at\nSomething',
+    label: 'Do Something\nFun',
     petalStyle: 'round',
     petalColor: colors.pink,
-    Icon: () => <CameraIcon lens={colors.pink} />,
+    Icon: PinwheelIcon,
   },
   {
     id: 'activities',

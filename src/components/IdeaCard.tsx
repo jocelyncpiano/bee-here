@@ -19,7 +19,7 @@ const GARDEN_CREAM = '#FDFBEF';
 export type IdeaContent = {
   kicker?: string;
   prompt: string;
-  guidance: string;
+  guidance?: string;
   unquoted?: boolean;
   long?: boolean;
 };
@@ -81,9 +81,11 @@ export default function IdeaCard({
             <Text style={[styles.prompt, idea.long && styles.longPrompt]}>
               {displayedPrompt}
             </Text>
-            <Text style={[styles.guidance, idea.long && styles.longGuidance]}>
-              {idea.guidance}
-            </Text>
+            {idea.guidance ? (
+              <Text style={[styles.guidance, idea.long && styles.longGuidance]}>
+                {idea.guidance}
+              </Text>
+            ) : null}
           </View>
         </View>
 
