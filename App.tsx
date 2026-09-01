@@ -25,6 +25,12 @@ import MusicScreen from './src/screens/MusicScreen';
 import DoSomethingFunScreen from './src/screens/DoSomethingFunScreen';
 import QuietTimeScreen from './src/screens/QuietTimeScreen';
 import HelpScreen from './src/screens/HelpScreen';
+import IdentityHelpScreen, {
+  IdentityAvoidScreen,
+  IdentityIntroductionScreen,
+} from './src/screens/IdentityHelpScreen';
+import KeepItEasyScreen from './src/screens/KeepItEasyScreen';
+import HomeHelpScreen from './src/screens/HomeHelpScreen';
 import { colors } from './src/theme/colors';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
@@ -44,7 +50,12 @@ type Screen =
   | 'music'
   | 'fun'
   | 'quiet'
-  | 'help';
+  | 'help'
+  | 'identity-help'
+  | 'identity-introduction'
+  | 'identity-avoid'
+  | 'keep-it-easy'
+  | 'home-help';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -54,7 +65,7 @@ export default function App() {
     Nunito_700Bold,
     Caveat_700Bold,
   });
-  const [screen, setScreen] = useState<Screen>('welcome');
+  const [screen, setScreen] = useState<Screen>('home-help');
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
@@ -130,7 +141,45 @@ export default function App() {
         ) : screen === 'quiet' ? (
           <QuietTimeScreen onBack={() => setScreen('connect')} />
         ) : screen === 'help' ? (
-          <HelpScreen onBack={() => setScreen('connect')} />
+          <HelpScreen
+            onSelectTopic={(topic) => {
+              if (topic === 'identity') {
+                setScreen('identity-help');
+              } else if (topic === 'home') {
+                setScreen('home-help');
+              }
+            }}
+            onBack={() => setScreen('connect')}
+          />
+        ) : screen === 'identity-help' ? (
+          <IdentityHelpScreen
+            onNext={() => setScreen('identity-introduction')}
+          />
+        ) : screen === 'identity-introduction' ? (
+          <IdentityIntroductionScreen
+            onNext={() => setScreen('identity-avoid')}
+          />
+        ) : screen === 'identity-avoid' ? (
+          <IdentityAvoidScreen
+            onNext={() => setScreen('keep-it-easy')}
+          />
+        ) : screen === 'keep-it-easy' ? (
+          <KeepItEasyScreen
+            onSelectOption={(option) => {
+              if (option === 'music') {
+                setScreen('music');
+              } else if (option === 'together') {
+                setScreen('activities');
+              } else if (option === 'quiet') {
+                setScreen('quiet');
+              } else {
+                setScreen('conversation');
+              }
+            }}
+            onAnotherProblem={() => setScreen('help')}
+          />
+        ) : screen === 'home-help' ? (
+          <HomeHelpScreen />
         ) : (
           <ConnectScreen
             onNeedHelp={() => setScreen('help')}

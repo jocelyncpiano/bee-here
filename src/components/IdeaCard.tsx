@@ -29,6 +29,15 @@ type IdeaCardProps = {
   ideas: IdeaContent[];
   ideaKind: string;
   anotherButtonColor?: string;
+  cardColor?: string;
+  showBee?: boolean;
+  titleKicker?: boolean;
+  showPrimaryButton?: boolean;
+  showSecondaryButton?: boolean;
+  primaryButtonLabel?: string;
+  primaryButtonIcon?: 'refresh' | 'next' | 'none';
+  secondaryButtonLabel?: string;
+  onPrimaryPress?: () => void;
   onBack?: () => void;
 };
 
@@ -37,6 +46,15 @@ export default function IdeaCard({
   ideas,
   ideaKind,
   anotherButtonColor = colors.purple,
+  cardColor = colors.purpleSoft,
+  showBee = false,
+  titleKicker = false,
+  showPrimaryButton = true,
+  showSecondaryButton = true,
+  primaryButtonLabel = 'Another idea',
+  primaryButtonIcon = 'refresh',
+  secondaryButtonLabel = 'Back to Visit Garden',
+  onPrimaryPress,
   onBack,
 }: IdeaCardProps) {
   const { width } = useWindowDimensions();
@@ -75,9 +93,52 @@ export default function IdeaCard({
         </View>
 
         <View style={styles.content}>
-          <Text style={styles.kicker}>{idea.kicker ?? kicker}</Text>
+          {showBee ? (
+            <View style={styles.beeScene}>
+              <Svg
+                width={250}
+                height={130}
+                viewBox="0 0 250 130"
+                fill="none"
+                style={StyleSheet.absoluteFill}
+              >
+                <Path
+                  d="M18 111 C 42 81, 65 88, 88 105"
+                  stroke={colors.softText}
+                  strokeOpacity={0.35}
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  strokeDasharray="2 8"
+                />
+                <Path
+                  d="M183 105 C 201 91, 221 91, 235 106"
+                  stroke={colors.softText}
+                  strokeOpacity={0.3}
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  strokeDasharray="2 8"
+                />
+              </Svg>
+              <Image
+                source={require('../../assets/bee.png')}
+                style={styles.bee}
+                resizeMode="contain"
+                accessibilityLabel="Buzzy the bee"
+              />
+            </View>
+          ) : null}
 
-          <View style={[styles.card, idea.long && styles.longCard]}>
+          <Text style={[styles.kicker, titleKicker && styles.titleKicker]}>
+            {idea.kicker ?? kicker}
+          </Text>
+
+          <View
+            style={[
+              styles.card,
+              { backgroundColor: cardColor },
+              idea.long && styles.longCard,
+            ]}
+          >
             <Text style={[styles.prompt, idea.long && styles.longPrompt]}>
               {displayedPrompt}
             </Text>
@@ -90,45 +151,65 @@ export default function IdeaCard({
         </View>
 
         <View style={styles.actions}>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={`Show another ${ideaKind} idea`}
-            onPress={showAnotherIdea}
-            style={({ pressed }) => [
-              styles.anotherButton,
-              { backgroundColor: anotherButtonColor },
-              pressed && styles.buttonPressed,
-            ]}
-          >
-            <Text style={styles.anotherButtonText}>Another idea</Text>
-            <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
-              <Path
-                d="M19 8a8 8 0 1 0 1 7"
-                stroke={colors.navy}
-                strokeWidth={2.2}
-                strokeLinecap="round"
-              />
-              <Path
-                d="M19 3v5h-5"
-                stroke={colors.navy}
-                strokeWidth={2.2}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </Svg>
-          </Pressable>
+          {showPrimaryButton ? (
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={
+                primaryButtonLabel === 'Another idea'
+                  ? `Show another ${ideaKind} idea`
+                  : primaryButtonLabel
+              }
+              onPress={onPrimaryPress ?? showAnotherIdea}
+              style={({ pressed }) => [
+                styles.anotherButton,
+                { backgroundColor: anotherButtonColor },
+                pressed && styles.buttonPressed,
+              ]}
+            >
+              <Text style={styles.anotherButtonText}>{primaryButtonLabel}</Text>
+              {primaryButtonIcon === 'refresh' ? (
+                <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
+                  <Path
+                    d="M19 8a8 8 0 1 0 1 7"
+                    stroke={colors.navy}
+                    strokeWidth={2.2}
+                    strokeLinecap="round"
+                  />
+                  <Path
+                    d="M19 3v5h-5"
+                    stroke={colors.navy}
+                    strokeWidth={2.2}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </Svg>
+              ) : primaryButtonIcon === 'next' ? (
+                <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
+                  <Path
+                    d="M9 4l7 8-7 8"
+                    stroke={colors.navy}
+                    strokeWidth={2.4}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </Svg>
+              ) : null}
+            </Pressable>
+          ) : null}
 
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel="Back to Visit Garden"
-            onPress={onBack}
-            style={({ pressed }) => [
-              styles.backButton,
-              pressed && styles.buttonPressed,
-            ]}
-          >
-            <Text style={styles.backButtonText}>Back to Visit Garden</Text>
-          </Pressable>
+          {showSecondaryButton ? (
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={secondaryButtonLabel}
+              onPress={onBack}
+              style={({ pressed }) => [
+                styles.backButton,
+                pressed && styles.buttonPressed,
+              ]}
+            >
+              <Text style={styles.backButtonText}>{secondaryButtonLabel}</Text>
+            </Pressable>
+          ) : null}
         </View>
       </SafeAreaView>
     </View>
@@ -163,6 +244,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 28,
     zIndex: 1,
   },
+  beeScene: {
+    width: 250,
+    height: 130,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: -52,
+  },
+  bee: {
+    width: 125,
+    height: 125,
+  },
   kicker: {
     fontFamily: Platform.select({
       ios: 'Caveat_700Bold',
@@ -173,6 +265,14 @@ const styles = StyleSheet.create({
     lineHeight: 48,
     color: colors.plum,
     marginBottom: 18,
+  },
+  titleKicker: {
+    fontFamily: Platform.select({
+      ios: 'Fraunces_700Bold',
+      android: 'Fraunces_700Bold',
+      default: 'serif',
+    }),
+    color: colors.navy,
   },
   card: {
     width: '100%',
