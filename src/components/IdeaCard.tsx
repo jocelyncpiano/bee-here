@@ -33,6 +33,7 @@ type IdeaCardProps = {
   showBee?: boolean;
   titleKicker?: boolean;
   compactTitle?: boolean;
+  smallTitle?: boolean;
   compactCard?: boolean;
   showPrimaryButton?: boolean;
   showSecondaryButton?: boolean;
@@ -52,6 +53,7 @@ export default function IdeaCard({
   showBee = false,
   titleKicker = false,
   compactTitle = false,
+  smallTitle = false,
   compactCard = false,
   showPrimaryButton = true,
   showSecondaryButton = true,
@@ -137,6 +139,7 @@ export default function IdeaCard({
               styles.kicker,
               titleKicker && styles.titleKicker,
               compactTitle && styles.compactTitle,
+              smallTitle && styles.smallTitle,
             ]}
           >
             {idea.kicker ?? kicker}
@@ -289,6 +292,12 @@ const styles = StyleSheet.create({
     fontSize: 30,
     lineHeight: 38,
   },
+  smallTitle: {
+    width: '112%',
+    fontSize: 24,
+    lineHeight: 32,
+    textAlign: 'center',
+  },
   card: {
     width: '100%',
     minHeight: 270,
@@ -333,6 +342,7 @@ const styles = StyleSheet.create({
     lineHeight: 37,
     color: colors.navy,
     textAlign: 'center',
+    marginTop: 18,
   },
   longCard: {
     minHeight: 330,

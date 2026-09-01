@@ -38,6 +38,10 @@ import HomeHelpScreen, {
   HomeRedirectScreen,
   HomeWordsScreen,
 } from './src/screens/HomeHelpScreen';
+import RepeatingHelpScreen, {
+  RepeatingDontSayScreen,
+  RepeatingFrustratedScreen,
+} from './src/screens/RepeatingHelpScreen';
 import { colors } from './src/theme/colors';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
@@ -68,7 +72,10 @@ type Screen =
   | 'home-redirect'
   | 'home-redirect-second'
   | 'home-redirect-third'
-  | 'home-redirect-final';
+  | 'home-redirect-final'
+  | 'repeating-help'
+  | 'repeating-frustrated'
+  | 'repeating-dont-say';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -160,6 +167,8 @@ export default function App() {
                 setScreen('identity-help');
               } else if (topic === 'home') {
                 setScreen('home-help');
+              } else if (topic === 'repeating') {
+                setScreen('repeating-help');
               }
             }}
             onBack={() => setScreen('connect')}
@@ -211,6 +220,19 @@ export default function App() {
           />
         ) : screen === 'home-redirect-final' ? (
           <HomeRedirectFinalScreen
+            onAnotherProblem={() => setScreen('help')}
+          />
+        ) : screen === 'repeating-help' ? (
+          <RepeatingHelpScreen
+            onNext={() => setScreen('repeating-frustrated')}
+          />
+        ) : screen === 'repeating-frustrated' ? (
+          <RepeatingFrustratedScreen
+            onNext={() => setScreen('repeating-dont-say')}
+          />
+        ) : screen === 'repeating-dont-say' ? (
+          <RepeatingDontSayScreen
+            onDistraction={() => setScreen('connect')}
             onAnotherProblem={() => setScreen('help')}
           />
         ) : (
