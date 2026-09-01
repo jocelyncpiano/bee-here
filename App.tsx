@@ -42,6 +42,12 @@ import RepeatingHelpScreen, {
   RepeatingDontSayScreen,
   RepeatingFrustratedScreen,
 } from './src/screens/RepeatingHelpScreen';
+import UpsetHelpScreen, {
+  UpsetDontScreen,
+  UpsetWordsScreen,
+} from './src/screens/UpsetHelpScreen';
+import CalmerIdeasScreen from './src/screens/CalmerIdeasScreen';
+import CaregiverHelpScreen from './src/screens/CaregiverHelpScreen';
 import { colors } from './src/theme/colors';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
@@ -75,7 +81,12 @@ type Screen =
   | 'home-redirect-final'
   | 'repeating-help'
   | 'repeating-frustrated'
-  | 'repeating-dont-say';
+  | 'repeating-dont-say'
+  | 'upset-help'
+  | 'upset-words'
+  | 'upset-dont'
+  | 'calmer-ideas'
+  | 'caregiver-help';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -169,6 +180,8 @@ export default function App() {
                 setScreen('home-help');
               } else if (topic === 'repeating') {
                 setScreen('repeating-help');
+              } else if (topic === 'upset') {
+                setScreen('upset-help');
               }
             }}
             onBack={() => setScreen('connect')}
@@ -233,6 +246,18 @@ export default function App() {
         ) : screen === 'repeating-dont-say' ? (
           <RepeatingDontSayScreen
             onDistraction={() => setScreen('connect')}
+            onAnotherProblem={() => setScreen('help')}
+          />
+        ) : screen === 'upset-help' ? (
+          <UpsetHelpScreen onNext={() => setScreen('upset-words')} />
+        ) : screen === 'upset-words' ? (
+          <UpsetWordsScreen onNext={() => setScreen('upset-dont')} />
+        ) : screen === 'upset-dont' ? (
+          <UpsetDontScreen onCalmer={() => setScreen('calmer-ideas')} />
+        ) : screen === 'calmer-ideas' ? (
+          <CalmerIdeasScreen onNext={() => setScreen('caregiver-help')} />
+        ) : screen === 'caregiver-help' ? (
+          <CaregiverHelpScreen
             onAnotherProblem={() => setScreen('help')}
           />
         ) : (
