@@ -23,6 +23,8 @@ import ConversationScreen from './src/screens/ConversationScreen';
 import ActivitiesScreen from './src/screens/ActivitiesScreen';
 import MusicScreen from './src/screens/MusicScreen';
 import DoSomethingFunScreen from './src/screens/DoSomethingFunScreen';
+import QuietTimeScreen from './src/screens/QuietTimeScreen';
+import HelpScreen from './src/screens/HelpScreen';
 import { colors } from './src/theme/colors';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
@@ -40,7 +42,9 @@ type Screen =
   | 'conversation'
   | 'activities'
   | 'music'
-  | 'fun';
+  | 'fun'
+  | 'quiet'
+  | 'help';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -123,8 +127,13 @@ export default function App() {
           <MusicScreen onBack={() => setScreen('connect')} />
         ) : screen === 'fun' ? (
           <DoSomethingFunScreen onBack={() => setScreen('connect')} />
+        ) : screen === 'quiet' ? (
+          <QuietTimeScreen onBack={() => setScreen('connect')} />
+        ) : screen === 'help' ? (
+          <HelpScreen onBack={() => setScreen('connect')} />
         ) : (
           <ConnectScreen
+            onNeedHelp={() => setScreen('help')}
             onSelectTopic={(topic) => {
               if (topic === 'conversation') {
                 setScreen('conversation');
@@ -134,6 +143,8 @@ export default function App() {
                 setScreen('music');
               } else if (topic === 'look') {
                 setScreen('fun');
+              } else if (topic === 'quiet') {
+                setScreen('quiet');
               }
             }}
           />
