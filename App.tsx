@@ -30,7 +30,14 @@ import IdentityHelpScreen, {
   IdentityIntroductionScreen,
 } from './src/screens/IdentityHelpScreen';
 import KeepItEasyScreen from './src/screens/KeepItEasyScreen';
-import HomeHelpScreen from './src/screens/HomeHelpScreen';
+import HomeHelpScreen, {
+  HomeDontArgueScreen,
+  HomeRedirectFinalScreen,
+  HomeRedirectSecondScreen,
+  HomeRedirectThirdScreen,
+  HomeRedirectScreen,
+  HomeWordsScreen,
+} from './src/screens/HomeHelpScreen';
 import { colors } from './src/theme/colors';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
@@ -55,7 +62,13 @@ type Screen =
   | 'identity-introduction'
   | 'identity-avoid'
   | 'keep-it-easy'
-  | 'home-help';
+  | 'home-help'
+  | 'home-words'
+  | 'home-dont-argue'
+  | 'home-redirect'
+  | 'home-redirect-second'
+  | 'home-redirect-third'
+  | 'home-redirect-final';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -65,7 +78,7 @@ export default function App() {
     Nunito_700Bold,
     Caveat_700Bold,
   });
-  const [screen, setScreen] = useState<Screen>('home-help');
+  const [screen, setScreen] = useState<Screen>('welcome');
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
@@ -179,7 +192,27 @@ export default function App() {
             onAnotherProblem={() => setScreen('help')}
           />
         ) : screen === 'home-help' ? (
-          <HomeHelpScreen />
+          <HomeHelpScreen onNext={() => setScreen('home-words')} />
+        ) : screen === 'home-words' ? (
+          <HomeWordsScreen onNext={() => setScreen('home-dont-argue')} />
+        ) : screen === 'home-dont-argue' ? (
+          <HomeDontArgueScreen onRedirect={() => setScreen('home-redirect')} />
+        ) : screen === 'home-redirect' ? (
+          <HomeRedirectScreen
+            onNext={() => setScreen('home-redirect-second')}
+          />
+        ) : screen === 'home-redirect-second' ? (
+          <HomeRedirectSecondScreen
+            onNext={() => setScreen('home-redirect-third')}
+          />
+        ) : screen === 'home-redirect-third' ? (
+          <HomeRedirectThirdScreen
+            onNext={() => setScreen('home-redirect-final')}
+          />
+        ) : screen === 'home-redirect-final' ? (
+          <HomeRedirectFinalScreen
+            onAnotherProblem={() => setScreen('help')}
+          />
         ) : (
           <ConnectScreen
             onNeedHelp={() => setScreen('help')}

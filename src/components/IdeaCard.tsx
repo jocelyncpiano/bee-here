@@ -32,6 +32,8 @@ type IdeaCardProps = {
   cardColor?: string;
   showBee?: boolean;
   titleKicker?: boolean;
+  compactTitle?: boolean;
+  compactCard?: boolean;
   showPrimaryButton?: boolean;
   showSecondaryButton?: boolean;
   primaryButtonLabel?: string;
@@ -49,6 +51,8 @@ export default function IdeaCard({
   cardColor = colors.purpleSoft,
   showBee = false,
   titleKicker = false,
+  compactTitle = false,
+  compactCard = false,
   showPrimaryButton = true,
   showSecondaryButton = true,
   primaryButtonLabel = 'Another idea',
@@ -128,7 +132,13 @@ export default function IdeaCard({
             </View>
           ) : null}
 
-          <Text style={[styles.kicker, titleKicker && styles.titleKicker]}>
+          <Text
+            style={[
+              styles.kicker,
+              titleKicker && styles.titleKicker,
+              compactTitle && styles.compactTitle,
+            ]}
+          >
             {idea.kicker ?? kicker}
           </Text>
 
@@ -136,6 +146,7 @@ export default function IdeaCard({
             style={[
               styles.card,
               { backgroundColor: cardColor },
+              compactCard && styles.compactCard,
               idea.long && styles.longCard,
             ]}
           >
@@ -274,6 +285,10 @@ const styles = StyleSheet.create({
     }),
     color: colors.navy,
   },
+  compactTitle: {
+    fontSize: 30,
+    lineHeight: 38,
+  },
   card: {
     width: '100%',
     minHeight: 270,
@@ -284,6 +299,9 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     paddingVertical: 24,
     paddingHorizontal: 24,
+  },
+  compactCard: {
+    minHeight: 220,
   },
   prompt: {
     fontFamily: Platform.select({
