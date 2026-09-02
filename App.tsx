@@ -65,6 +65,9 @@ import UnknownAnswerHelpScreen, {
   AnswerSuggestionsScreen,
   WhenToAskForHelpScreen,
 } from './src/screens/UnknownAnswerHelpScreen';
+import NothingToSayHelpScreen, {
+  ThenStopScreen,
+} from './src/screens/NothingToSayHelpScreen';
 import { colors } from './src/theme/colors';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
@@ -116,7 +119,9 @@ type Screen =
   | 'silence-connection'
   | 'unknown-answer-help'
   | 'answer-suggestions'
-  | 'when-to-ask-help';
+  | 'when-to-ask-help'
+  | 'nothing-to-say-help'
+  | 'then-stop';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -220,6 +225,8 @@ export default function App() {
                 setScreen('not-talking-help');
               } else if (topic === 'unknown-answer') {
                 setScreen('unknown-answer-help');
+              } else if (topic === 'nothing-to-say') {
+                setScreen('nothing-to-say-help');
               }
             }}
             onBack={() => setScreen('connect')}
@@ -351,6 +358,10 @@ export default function App() {
           <WhenToAskForHelpScreen
             onAnotherProblem={() => setScreen('help')}
           />
+        ) : screen === 'nothing-to-say-help' ? (
+          <NothingToSayHelpScreen onNext={() => setScreen('then-stop')} />
+        ) : screen === 'then-stop' ? (
+          <ThenStopScreen onAnotherProblem={() => setScreen('help')} />
         ) : (
           <ConnectScreen
             onNeedHelp={() => setScreen('help')}
