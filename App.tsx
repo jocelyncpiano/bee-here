@@ -48,6 +48,11 @@ import UpsetHelpScreen, {
 } from './src/screens/UpsetHelpScreen';
 import CalmerIdeasScreen from './src/screens/CalmerIdeasScreen';
 import CaregiverHelpScreen from './src/screens/CaregiverHelpScreen';
+import MissingPersonHelpScreen, {
+  FollowTheFeelingScreen,
+  MoreDistressScreen,
+} from './src/screens/MissingPersonHelpScreen';
+import ComfortingIdeasScreen from './src/screens/ComfortingIdeasScreen';
 import { colors } from './src/theme/colors';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
@@ -86,7 +91,11 @@ type Screen =
   | 'upset-words'
   | 'upset-dont'
   | 'calmer-ideas'
-  | 'caregiver-help';
+  | 'caregiver-help'
+  | 'missing-person-help'
+  | 'follow-the-feeling'
+  | 'more-distress'
+  | 'comforting-ideas';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -182,6 +191,8 @@ export default function App() {
                 setScreen('repeating-help');
               } else if (topic === 'upset') {
                 setScreen('upset-help');
+              } else if (topic === 'missing-person') {
+                setScreen('missing-person-help');
               }
             }}
             onBack={() => setScreen('connect')}
@@ -258,6 +269,22 @@ export default function App() {
           <CalmerIdeasScreen onNext={() => setScreen('caregiver-help')} />
         ) : screen === 'caregiver-help' ? (
           <CaregiverHelpScreen
+            onAnotherProblem={() => setScreen('help')}
+          />
+        ) : screen === 'missing-person-help' ? (
+          <MissingPersonHelpScreen
+            onNext={() => setScreen('follow-the-feeling')}
+          />
+        ) : screen === 'follow-the-feeling' ? (
+          <FollowTheFeelingScreen
+            onNext={() => setScreen('more-distress')}
+          />
+        ) : screen === 'more-distress' ? (
+          <MoreDistressScreen
+            onComforting={() => setScreen('comforting-ideas')}
+          />
+        ) : screen === 'comforting-ideas' ? (
+          <ComfortingIdeasScreen
             onAnotherProblem={() => setScreen('help')}
           />
         ) : (
