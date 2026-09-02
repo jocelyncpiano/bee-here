@@ -57,6 +57,14 @@ import UntrueHelpScreen, {
   ProfessionalHelpScreen,
 } from './src/screens/UntrueHelpScreen';
 import UntrueResponseScreen from './src/screens/UntrueResponseScreen';
+import NotTalkingHelpScreen, {
+  QuietConnectionScreen,
+  SilenceConnectionScreen,
+} from './src/screens/NotTalkingHelpScreen';
+import UnknownAnswerHelpScreen, {
+  AnswerSuggestionsScreen,
+  WhenToAskForHelpScreen,
+} from './src/screens/UnknownAnswerHelpScreen';
 import { colors } from './src/theme/colors';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
@@ -102,7 +110,13 @@ type Screen =
   | 'comforting-ideas'
   | 'untrue-help'
   | 'untrue-response'
-  | 'professional-help';
+  | 'professional-help'
+  | 'not-talking-help'
+  | 'quiet-connection'
+  | 'silence-connection'
+  | 'unknown-answer-help'
+  | 'answer-suggestions'
+  | 'when-to-ask-help';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -202,6 +216,10 @@ export default function App() {
                 setScreen('missing-person-help');
               } else if (topic === 'untrue') {
                 setScreen('untrue-help');
+              } else if (topic === 'not-talking') {
+                setScreen('not-talking-help');
+              } else if (topic === 'unknown-answer') {
+                setScreen('unknown-answer-help');
               }
             }}
             onBack={() => setScreen('connect')}
@@ -307,6 +325,30 @@ export default function App() {
           />
         ) : screen === 'professional-help' ? (
           <ProfessionalHelpScreen
+            onAnotherProblem={() => setScreen('help')}
+          />
+        ) : screen === 'not-talking-help' ? (
+          <NotTalkingHelpScreen
+            onNext={() => setScreen('quiet-connection')}
+          />
+        ) : screen === 'quiet-connection' ? (
+          <QuietConnectionScreen
+            onNext={() => setScreen('silence-connection')}
+          />
+        ) : screen === 'silence-connection' ? (
+          <SilenceConnectionScreen
+            onAnotherProblem={() => setScreen('help')}
+          />
+        ) : screen === 'unknown-answer-help' ? (
+          <UnknownAnswerHelpScreen
+            onNext={() => setScreen('answer-suggestions')}
+          />
+        ) : screen === 'answer-suggestions' ? (
+          <AnswerSuggestionsScreen
+            onNext={() => setScreen('when-to-ask-help')}
+          />
+        ) : screen === 'when-to-ask-help' ? (
+          <WhenToAskForHelpScreen
             onAnotherProblem={() => setScreen('help')}
           />
         ) : (
