@@ -53,6 +53,10 @@ import MissingPersonHelpScreen, {
   MoreDistressScreen,
 } from './src/screens/MissingPersonHelpScreen';
 import ComfortingIdeasScreen from './src/screens/ComfortingIdeasScreen';
+import UntrueHelpScreen, {
+  ProfessionalHelpScreen,
+} from './src/screens/UntrueHelpScreen';
+import UntrueResponseScreen from './src/screens/UntrueResponseScreen';
 import { colors } from './src/theme/colors';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
@@ -95,7 +99,10 @@ type Screen =
   | 'missing-person-help'
   | 'follow-the-feeling'
   | 'more-distress'
-  | 'comforting-ideas';
+  | 'comforting-ideas'
+  | 'untrue-help'
+  | 'untrue-response'
+  | 'professional-help';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -193,6 +200,8 @@ export default function App() {
                 setScreen('upset-help');
               } else if (topic === 'missing-person') {
                 setScreen('missing-person-help');
+              } else if (topic === 'untrue') {
+                setScreen('untrue-help');
               }
             }}
             onBack={() => setScreen('connect')}
@@ -285,6 +294,19 @@ export default function App() {
           />
         ) : screen === 'comforting-ideas' ? (
           <ComfortingIdeasScreen
+            onAnotherProblem={() => setScreen('help')}
+          />
+        ) : screen === 'untrue-help' ? (
+          <UntrueHelpScreen
+            onNo={() => setScreen('untrue-response')}
+            onYesOrUnsure={() => setScreen('professional-help')}
+          />
+        ) : screen === 'untrue-response' ? (
+          <UntrueResponseScreen
+            onAnotherProblem={() => setScreen('help')}
+          />
+        ) : screen === 'professional-help' ? (
+          <ProfessionalHelpScreen
             onAnotherProblem={() => setScreen('help')}
           />
         ) : (
