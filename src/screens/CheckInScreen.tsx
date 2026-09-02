@@ -21,7 +21,6 @@ const GARDEN_BAND_FRAC = (1536 - 636) / 1536;
 const GARDEN_CREAM = '#FDFBEF';
 
 type CheckInScreenProps = {
-  onBack?: () => void;
   onSelect?: (mood: MoodId) => void;
 };
 
@@ -107,10 +106,7 @@ const MOODS: Mood[] = [
 ];
 
 /** Mood check-in — "How are things right now?". */
-export default function CheckInScreen({
-  onBack,
-  onSelect,
-}: CheckInScreenProps) {
+export default function CheckInScreen({ onSelect }: CheckInScreenProps) {
   const { width } = useWindowDimensions();
   const gardenHeight = width * GARDEN_ASPECT * GARDEN_BAND_FRAC;
 
@@ -135,27 +131,6 @@ export default function CheckInScreen({
           </View>
 
           <View style={[styles.content, { paddingBottom: gardenHeight }]}>
-            {/* Header */}
-            <View style={styles.header}>
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel="Go back"
-                onPress={onBack}
-                hitSlop={12}
-                style={styles.headerButton}
-              >
-                <Svg width={26} height={26} viewBox="0 0 24 24" fill="none">
-                  <Path
-                    d="M15 4l-7 8 7 8"
-                    stroke={colors.navy}
-                    strokeWidth={2.4}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </Svg>
-              </Pressable>
-            </View>
-
             {/* Buzzy with a dotted heart trail */}
             <View style={styles.beeRow}>
               <Svg width={70} height={48} viewBox="0 0 70 48" fill="none">
@@ -258,22 +233,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     zIndex: 1,
   },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingTop: 4,
-  },
-  headerButton: {
-    width: 40,
-    height: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   beeRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 4,
+    marginTop: 48,
   },
   bee: {
     width: 80,

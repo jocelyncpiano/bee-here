@@ -27,3 +27,6 @@ yarn-error.*
 
 # Env
 .env*.local
+
+# Store submission credentials
+google-service-account.json

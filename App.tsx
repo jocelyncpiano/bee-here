@@ -68,6 +68,11 @@ import UnknownAnswerHelpScreen, {
 import NothingToSayHelpScreen, {
   ThenStopScreen,
 } from './src/screens/NothingToSayHelpScreen';
+import EndVisitControl from './src/components/EndVisitControl';
+import EndVisitScreen, {
+  VisitCompleteScreen,
+} from './src/screens/EndVisitScreen';
+import AppMenu from './src/components/AppMenu';
 import { colors } from './src/theme/colors';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
@@ -121,7 +126,9 @@ type Screen =
   | 'answer-suggestions'
   | 'when-to-ask-help'
   | 'nothing-to-say-help'
-  | 'then-stop';
+  | 'then-stop'
+  | 'end-visit'
+  | 'visit-complete';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -132,6 +139,20 @@ export default function App() {
     Caveat_700Bold,
   });
   const [screen, setScreen] = useState<Screen>('welcome');
+  const [screenBeforeEndVisit, setScreenBeforeEndVisit] =
+    useState<Screen>('connect');
+  const showEndVisit = ![
+    'welcome',
+    'intro1',
+    'intro2',
+    'checkin',
+    'calm',
+    'difficult',
+    'hard',
+    'unsure',
+    'end-visit',
+    'visit-complete',
+  ].includes(screen);
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
@@ -157,7 +178,6 @@ export default function App() {
           <IntroPromiseScreen onBegin={() => setScreen('checkin')} />
         ) : screen === 'checkin' ? (
           <CheckInScreen
-            onBack={() => setScreen('intro2')}
             onSelect={(mood) =>
               setScreen(
                 mood === 'well'
@@ -362,6 +382,13 @@ export default function App() {
           <NothingToSayHelpScreen onNext={() => setScreen('then-stop')} />
         ) : screen === 'then-stop' ? (
           <ThenStopScreen onAnotherProblem={() => setScreen('help')} />
+        ) : screen === 'end-visit' ? (
+          <EndVisitScreen
+            onEndVisit={() => setScreen('visit-complete')}
+            onKeepVisiting={() => setScreen(screenBeforeEndVisit)}
+          />
+        ) : screen === 'visit-complete' ? (
+          <VisitCompleteScreen onDone={() => setScreen('welcome')} />
         ) : (
           <ConnectScreen
             onNeedHelp={() => setScreen('help')}
@@ -380,6 +407,15 @@ export default function App() {
             }}
           />
         )}
+        {showEndVisit ? (
+          <EndVisitControl
+            onEndVisit={() => {
+              setScreenBeforeEndVisit(screen);
+              setScreen('end-visit');
+            }}
+          />
+        ) : null}
+        <AppMenu />
       </View>
     </SafeAreaProvider>
   );
